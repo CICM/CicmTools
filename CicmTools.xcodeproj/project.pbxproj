@@ -7,15 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C0E4D1F1C6F961700CA6B01 /* maxmspsdk.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */; };
-		2C0E4D211C6F962000CA6B01 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D201C6F962000CA6B01 /* Info.plist */; };
 		2C0E4D2A1C6F97B600CA6B01 /* MaxAudioAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */; };
-		2C0E4D2E1C6F99A900CA6B01 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D201C6F962000CA6B01 /* Info.plist */; };
-		2C0E4D2F1C6F99A900CA6B01 /* maxmspsdk.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */; };
 		2C0E4D331C6F99A900CA6B01 /* MaxAudioAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */; };
 		2C0E4D3B1C6F99D600CA6B01 /* ambicube~.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E4D231C6F963000CA6B01 /* ambicube~.c */; };
-		2C0E4D3F1C6F9AD600CA6B01 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D201C6F962000CA6B01 /* Info.plist */; };
-		2C0E4D401C6F9AD600CA6B01 /* maxmspsdk.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */; };
 		2C0E4D441C6F9AD600CA6B01 /* MaxAudioAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */; };
 		2C0E4D4C1C6F9B1F00CA6B01 /* vbapan~.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E4D251C6F963000CA6B01 /* vbapan~.c */; };
 		2C0E4D4D1C6F9B2C00CA6B01 /* ambipan~.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E4D241C6F963000CA6B01 /* ambipan~.c */; };
@@ -94,10 +88,10 @@
 		089C166AFE841209C02AAC07 /* iterator */ = {
 			isa = PBXGroup;
 			children = (
-				2C0E4D201C6F962000CA6B01 /* Info.plist */,
-				2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */,
 				2C0E4D221C6F963000CA6B01 /* Sources */,
 				2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */,
+				2C0E4D201C6F962000CA6B01 /* Info.plist */,
+				2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
 			);
 			name = iterator;
@@ -241,8 +235,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C0E4D2E1C6F99A900CA6B01 /* Info.plist in Resources */,
-				2C0E4D2F1C6F99A900CA6B01 /* maxmspsdk.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,8 +242,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C0E4D3F1C6F9AD600CA6B01 /* Info.plist in Resources */,
-				2C0E4D401C6F9AD600CA6B01 /* maxmspsdk.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,8 +249,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C0E4D211C6F962000CA6B01 /* Info.plist in Resources */,
-				2C0E4D1F1C6F961700CA6B01 /* maxmspsdk.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
