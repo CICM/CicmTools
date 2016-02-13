@@ -41,9 +41,8 @@
  * along with this library; if not, write to the Free Software Foundation, 
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  * 
- * www.mshparisnord.org
- * rmignot@mshparisnord.org
- * eliott.paris@yahoo.fr
+ * cicm.mshparisnord.org
+ * cicm.mshparisnord@gmail.com
  */
 
 
@@ -71,10 +70,7 @@
 /*                            EN TETE                                 */
 /**********************************************************************/
  
-#include "ext.h"
-#include "ext_obex.h"
-#include "z_dsp.h"
-#include <math.h>
+#include "CicmTools.h"
 
 #define   Nmax      64     //Nombre maximum de haut-parleurs,
 #define   Ndefaut   4      //Nombre de haut-parleurs par défaut,
@@ -1256,26 +1252,11 @@ void ext_main(void *r)
 	class_addmethod(c, (method)vbapan_tilde_informations, "get_info", 0);
 	class_addmethod(c, (method)vbapan_tilde_assist,"assist",A_CANT,0);
 	
-	/*Publicité pour le CICM *********************************/
-	post("\"vbapan~\"  Auteurs: R.MIGNOT  "
-		 "et B.COURRIBET, CICM Université Paris8,");
-	post("           MSH Paris Nord, ACI Jeunes "
-		 "Chercheurs \"Espaces Sonores\".");
-	post("           cicm\100univ-paris8.fr.");
-	post("v2.0, Max 6.0.4 version by E.PARIS.");
-	
-	/*Ajout du nom de l'objet dans liste*/
-	finder_addclass( "CICMTOOLS", "ambicube~");
-	finder_addclass( "CICMTOOLS", "ambipan~");
-	finder_addclass( "CICMTOOLS", "vbapan~");
-	finder_addclass( "CICMTOOLS", "six2head~");
-	finder_addclass( "CICMTOOLS", "cube2head~");
+	cicmtools_post_credits();
 	
 	class_dspinit(c);
 	class_register(CLASS_BOX, c);
-	vbapan_tilde_class = c;	
-	
-	return 0;
+	vbapan_tilde_class = c;
 }
 
 

@@ -13,6 +13,9 @@
 		2C0E4D441C6F9AD600CA6B01 /* MaxAudioAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */; };
 		2C0E4D4C1C6F9B1F00CA6B01 /* vbapan~.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E4D251C6F963000CA6B01 /* vbapan~.c */; };
 		2C0E4D4D1C6F9B2C00CA6B01 /* ambipan~.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E4D241C6F963000CA6B01 /* ambipan~.c */; };
+		2C0E4D4F1C6F9FE900CA6B01 /* CicmTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C0E4D4E1C6F9FE900CA6B01 /* CicmTools.h */; };
+		2C0E4D501C6F9FE900CA6B01 /* CicmTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C0E4D4E1C6F9FE900CA6B01 /* CicmTools.h */; };
+		2C0E4D511C6F9FE900CA6B01 /* CicmTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C0E4D4E1C6F9FE900CA6B01 /* CicmTools.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,6 +57,7 @@
 		2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MaxAudioAPI.framework; path = "ThirdParty/Max7-sdk/source/c74support/msp-includes/MaxAudioAPI.framework"; sourceTree = "<group>"; };
 		2C0E4D391C6F99A900CA6B01 /* ambicube~.mxo */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ambicube~.mxo"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0E4D4A1C6F9AD600CA6B01 /* vbapan~.mxo */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "vbapan~.mxo"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C0E4D4E1C6F9FE900CA6B01 /* CicmTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CicmTools.h; sourceTree = "<group>"; };
 		2FBBEAE508F335360078DB84 /* ambipan~.mxo */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ambipan~.mxo"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -110,6 +114,7 @@
 		2C0E4D221C6F963000CA6B01 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				2C0E4D4E1C6F9FE900CA6B01 /* CicmTools.h */,
 				2C0E4D241C6F963000CA6B01 /* ambipan~.c */,
 				2C0E4D231C6F963000CA6B01 /* ambicube~.c */,
 				2C0E4D251C6F963000CA6B01 /* vbapan~.c */,
@@ -124,6 +129,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C0E4D501C6F9FE900CA6B01 /* CicmTools.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +137,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C0E4D511C6F9FE900CA6B01 /* CicmTools.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +145,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C0E4D4F1C6F9FE900CA6B01 /* CicmTools.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
