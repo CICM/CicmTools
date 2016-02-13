@@ -1,0 +1,526 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2C0E4D1F1C6F961700CA6B01 /* maxmspsdk.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */; };
+		2C0E4D211C6F962000CA6B01 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D201C6F962000CA6B01 /* Info.plist */; };
+		2C0E4D2A1C6F97B600CA6B01 /* MaxAudioAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */; };
+		2C0E4D2E1C6F99A900CA6B01 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D201C6F962000CA6B01 /* Info.plist */; };
+		2C0E4D2F1C6F99A900CA6B01 /* maxmspsdk.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */; };
+		2C0E4D331C6F99A900CA6B01 /* MaxAudioAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */; };
+		2C0E4D3B1C6F99D600CA6B01 /* ambicube~.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E4D231C6F963000CA6B01 /* ambicube~.c */; };
+		2C0E4D3F1C6F9AD600CA6B01 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D201C6F962000CA6B01 /* Info.plist */; };
+		2C0E4D401C6F9AD600CA6B01 /* maxmspsdk.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */; };
+		2C0E4D441C6F9AD600CA6B01 /* MaxAudioAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */; };
+		2C0E4D4C1C6F9B1F00CA6B01 /* vbapan~.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E4D251C6F963000CA6B01 /* vbapan~.c */; };
+		2C0E4D4D1C6F9B2C00CA6B01 /* ambipan~.c in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E4D241C6F963000CA6B01 /* ambipan~.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2C0E4D351C6F99A900CA6B01 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = Contents/MacOS;
+			dstSubfolderSpec = 1;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C0E4D461C6F9AD600CA6B01 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = Contents/MacOS;
+			dstSubfolderSpec = 1;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41E47A4B166F9426006D3CB8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = Contents/MacOS;
+			dstSubfolderSpec = 1;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = maxmspsdk.xcconfig; sourceTree = "<group>"; };
+		2C0E4D201C6F962000CA6B01 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C0E4D231C6F963000CA6B01 /* ambicube~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ambicube~.c"; sourceTree = "<group>"; };
+		2C0E4D241C6F963000CA6B01 /* ambipan~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ambipan~.c"; sourceTree = "<group>"; };
+		2C0E4D251C6F963000CA6B01 /* vbapan~.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "vbapan~.c"; sourceTree = "<group>"; };
+		2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MaxAudioAPI.framework; path = "ThirdParty/Max7-sdk/source/c74support/msp-includes/MaxAudioAPI.framework"; sourceTree = "<group>"; };
+		2C0E4D391C6F99A900CA6B01 /* ambicube~.mxo */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ambicube~.mxo"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C0E4D4A1C6F9AD600CA6B01 /* vbapan~.mxo */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "vbapan~.mxo"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FBBEAE508F335360078DB84 /* ambipan~.mxo */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ambipan~.mxo"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2C0E4D321C6F99A900CA6B01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D331C6F99A900CA6B01 /* MaxAudioAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C0E4D431C6F9AD600CA6B01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D441C6F9AD600CA6B01 /* MaxAudioAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FBBEADC08F335360078DB84 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D2A1C6F97B600CA6B01 /* MaxAudioAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* iterator */ = {
+			isa = PBXGroup;
+			children = (
+				2C0E4D201C6F962000CA6B01 /* Info.plist */,
+				2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */,
+				2C0E4D221C6F963000CA6B01 /* Sources */,
+				2C0E4D291C6F97B600CA6B01 /* MaxAudioAPI.framework */,
+				19C28FB4FE9D528D11CA2CBB /* Products */,
+			);
+			name = iterator;
+			sourceTree = "<group>";
+		};
+		19C28FB4FE9D528D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2FBBEAE508F335360078DB84 /* ambipan~.mxo */,
+				2C0E4D391C6F99A900CA6B01 /* ambicube~.mxo */,
+				2C0E4D4A1C6F9AD600CA6B01 /* vbapan~.mxo */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2C0E4D221C6F963000CA6B01 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2C0E4D241C6F963000CA6B01 /* ambipan~.c */,
+				2C0E4D231C6F963000CA6B01 /* ambicube~.c */,
+				2C0E4D251C6F963000CA6B01 /* vbapan~.c */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2C0E4D2C1C6F99A900CA6B01 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C0E4D3D1C6F9AD600CA6B01 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FBBEAD708F335360078DB84 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2C0E4D2B1C6F99A900CA6B01 /* ambicube~ */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C0E4D361C6F99A900CA6B01 /* Build configuration list for PBXNativeTarget "ambicube~" */;
+			buildPhases = (
+				2C0E4D2C1C6F99A900CA6B01 /* Headers */,
+				2C0E4D2D1C6F99A900CA6B01 /* Resources */,
+				2C0E4D301C6F99A900CA6B01 /* Sources */,
+				2C0E4D321C6F99A900CA6B01 /* Frameworks */,
+				2C0E4D341C6F99A900CA6B01 /* Rez */,
+				2C0E4D351C6F99A900CA6B01 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ambicube~";
+			productName = iterator;
+			productReference = 2C0E4D391C6F99A900CA6B01 /* ambicube~.mxo */;
+			productType = "com.apple.product-type.bundle";
+		};
+		2C0E4D3C1C6F9AD600CA6B01 /* vbapan~ */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C0E4D471C6F9AD600CA6B01 /* Build configuration list for PBXNativeTarget "vbapan~" */;
+			buildPhases = (
+				2C0E4D3D1C6F9AD600CA6B01 /* Headers */,
+				2C0E4D3E1C6F9AD600CA6B01 /* Resources */,
+				2C0E4D411C6F9AD600CA6B01 /* Sources */,
+				2C0E4D431C6F9AD600CA6B01 /* Frameworks */,
+				2C0E4D451C6F9AD600CA6B01 /* Rez */,
+				2C0E4D461C6F9AD600CA6B01 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "vbapan~";
+			productName = iterator;
+			productReference = 2C0E4D4A1C6F9AD600CA6B01 /* vbapan~.mxo */;
+			productType = "com.apple.product-type.bundle";
+		};
+		2FBBEAD608F335360078DB84 /* ambipan~ */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FBBEAE008F335360078DB84 /* Build configuration list for PBXNativeTarget "ambipan~" */;
+			buildPhases = (
+				2FBBEAD708F335360078DB84 /* Headers */,
+				2FBBEAD808F335360078DB84 /* Resources */,
+				2FBBEADA08F335360078DB84 /* Sources */,
+				2FBBEADC08F335360078DB84 /* Frameworks */,
+				2FBBEADF08F335360078DB84 /* Rez */,
+				41E47A4B166F9426006D3CB8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ambipan~";
+			productName = iterator;
+			productReference = 2FBBEAE508F335360078DB84 /* ambipan~.mxo */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+			};
+			buildConfigurationList = 2FBBEACF08F335010078DB84 /* Build configuration list for PBXProject "CicmTools" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* iterator */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2FBBEAD608F335360078DB84 /* ambipan~ */,
+				2C0E4D2B1C6F99A900CA6B01 /* ambicube~ */,
+				2C0E4D3C1C6F9AD600CA6B01 /* vbapan~ */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2C0E4D2D1C6F99A900CA6B01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D2E1C6F99A900CA6B01 /* Info.plist in Resources */,
+				2C0E4D2F1C6F99A900CA6B01 /* maxmspsdk.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C0E4D3E1C6F9AD600CA6B01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D3F1C6F9AD600CA6B01 /* Info.plist in Resources */,
+				2C0E4D401C6F9AD600CA6B01 /* maxmspsdk.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FBBEAD808F335360078DB84 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D211C6F962000CA6B01 /* Info.plist in Resources */,
+				2C0E4D1F1C6F961700CA6B01 /* maxmspsdk.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		2C0E4D341C6F99A900CA6B01 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C0E4D451C6F9AD600CA6B01 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FBBEADF08F335360078DB84 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2C0E4D301C6F99A900CA6B01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D3B1C6F99D600CA6B01 /* ambicube~.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C0E4D411C6F9AD600CA6B01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D4C1C6F9B1F00CA6B01 /* vbapan~.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FBBEADA08F335360078DB84 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C0E4D4D1C6F9B2C00CA6B01 /* ambipan~.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2C0E4D371C6F99A900CA6B01 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ThirdParty/Max7-sdk/source/c74support/msp-includes",
+				);
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_REUSE_STRINGS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
+			};
+			name = Development;
+		};
+		2C0E4D381C6F99A900CA6B01 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ThirdParty/Max7-sdk/source/c74support/msp-includes",
+				);
+				GCC_REUSE_STRINGS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
+			};
+			name = Deployment;
+		};
+		2C0E4D481C6F9AD600CA6B01 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ThirdParty/Max7-sdk/source/c74support/msp-includes",
+				);
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_REUSE_STRINGS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
+			};
+			name = Development;
+		};
+		2C0E4D491C6F9AD600CA6B01 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ThirdParty/Max7-sdk/source/c74support/msp-includes",
+				);
+				GCC_REUSE_STRINGS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
+			};
+			name = Deployment;
+		};
+		2FBBEAD008F335010078DB84 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				OTHER_LDFLAGS = "$(C74_SYM_LINKER_FLAGS)";
+			};
+			name = Development;
+		};
+		2FBBEAD108F335010078DB84 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				OTHER_LDFLAGS = "$(C74_SYM_LINKER_FLAGS)";
+			};
+			name = Deployment;
+		};
+		2FBBEAE108F335360078DB84 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ThirdParty/Max7-sdk/source/c74support/msp-includes",
+				);
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_REUSE_STRINGS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
+			};
+			name = Development;
+		};
+		2FBBEAE208F335360078DB84 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ThirdParty/Max7-sdk/source/c74support/msp-includes",
+				);
+				GCC_REUSE_STRINGS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+				);
+			};
+			name = Deployment;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C0E4D361C6F99A900CA6B01 /* Build configuration list for PBXNativeTarget "ambicube~" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C0E4D371C6F99A900CA6B01 /* Development */,
+				2C0E4D381C6F99A900CA6B01 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		2C0E4D471C6F9AD600CA6B01 /* Build configuration list for PBXNativeTarget "vbapan~" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C0E4D481C6F9AD600CA6B01 /* Development */,
+				2C0E4D491C6F9AD600CA6B01 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		2FBBEACF08F335010078DB84 /* Build configuration list for PBXProject "CicmTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FBBEAD008F335010078DB84 /* Development */,
+				2FBBEAD108F335010078DB84 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		2FBBEAE008F335360078DB84 /* Build configuration list for PBXNativeTarget "ambipan~" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FBBEAE108F335360078DB84 /* Development */,
+				2FBBEAE208F335360078DB84 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
