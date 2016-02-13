@@ -1,28 +1,47 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
+#################
+## Visual Studio
+#################
+
+*.amplxeproj
+*.tlog
 *.obj
+*.log
+*.idb
+*.pdb
+*.lastbuildstate
+*.ipch
+*.opensdf
+*.sdf
+*.user
+*.suo
+*.cache
+*.unsuccessfulbuild
+*.ilk
+*.rc
+*.manifest
+*.res
 
-# Precompiled Headers
-*.gch
-*.pch
+sysbuild/
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+#################
+## XCode
+#################
+xcuserdata/
+xcshareddata/
 
-# Fortran module files
-*.mod
+*.build/
+*.gcda
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# Mac crap
+.DS_Store
 
-# Executables
-*.exe
-*.out
-*.app
+*.mode1V3
+*.pbxuser
+
+#################
+## Max
+#################
+
+*.mxo
+*.mxe
+*.mxe64
