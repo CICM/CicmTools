@@ -135,8 +135,6 @@ typedef struct _ambicube_tilde
 /*      Prototypage des fonctions et méthodes.     	                  */
 /**********************************************************************/
 
-void  ambicube_tilde_dsp(t_ambicube_tilde *x, t_signal **sp, short *count);
-t_int *ambicube_tilde_perform_signal(t_int *w);
 void  ambicube_tilde_dsp64(t_ambicube_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags);
 void  ambicube_tilde_perform_signal64(t_ambicube_tilde *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long sampleframes, long flags, void *userparam);
 void  ambicube_tilde_recoit_x(t_ambicube_tilde *x, double xp);
@@ -147,149 +145,21 @@ void  ambicube_tilde_dest(t_ambicube_tilde *x);
 void  ambicube_tilde_muter_entrees_signal(t_ambicube_tilde *x, int mute);
 void  ambicube_tilde_changer_type_repere( t_ambicube_tilde *x, t_symbol *sym);
 void  ambicube_tilde_changer_offset(t_ambicube_tilde *x, double val);
-void  *ambicube_tilde_new(t_symbol *s, int argc, Atom *argv );
+void  *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv );
 void  ambicube_tilde_assist(t_ambicube_tilde *x, void *b, long m, long a, char *s);
 void  ambipan_tilde_recoit_float(t_ambicube_tilde *x, double data);
 
 
 /**********************************************************************/
-/*      TRAITEMENT DU SIGNAL avec coordonnées recues en signal.       */
+/*                       METHODE DSP                                  */
 /**********************************************************************/
 
-t_int *ambicube_tilde_perform_signal(t_int *w)
+void ambicube_tilde_dsp64(t_ambicube_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags)
 {
-	/*Préparation des pointeurs****************************************/
-	t_ambicube_tilde *x = (t_ambicube_tilde *)(w[1]);//adresse de la dataspace
-	float     *son_in   = (t_float *)(w[2]);        //son en entrée
-	float     *xp       = (t_float *)(w[3]);        //réception de x
-	float     *yp       = (t_float *)(w[4]);        //réception de y
-	float     *zp       = (t_float *)(w[5]);        //réception de z
-	int       n         = (int)(w[6+Nhp]);          //taille des blocs
-	
-	/*Déclarations des variables locales*/
-	float son;            //variable temporaire,
-	int   hp;             //indices relatif au haut-parleur,
-	int   i;              //indices du n° de l'échantillon,
-	int   phii, ksii;     //angles en entier de 0 à T_COS,
-	int   retour = Nhp + 7;  //retour pour pure data,
-	float offset = x->offset;
-	
-	float K = (float)(sqrt(1/(float)Nhp)/1.66);  //Facteur correctif.
-	
-	//Paramètres ambisoniques:
-	float xtemp, xl, yl, zl, ds, dist, X, Y, Z, W, P;
-	
-	/*Préparation des pointeurs des sorties ***************************/
-	float *out[8];
-	for( hp = 0; hp < Nhp; hp++)
-		out[hp] = (t_float *)(w[hp+6]);
-	
-	/******************************************************************/
-	/*  zero  **************************************************/
-	
-	if (x->x_obj.z_disabled) goto noProcess;
-	if (!x->connected[0]) {
-		for( i=0; i<n; i++) for( hp = 0; hp < Nhp; hp++) out[hp][i] = 0;/**/
-		goto noProcess;
-	}
-	
-	/******************************************************************/
-	/*  Traitements  **************************************************/
-	
-	if (x->connected[1]) x->c1 = xp[n-1];
-	if (x->connected[2]) x->c2 = yp[n-1];
-	if (x->connected[3]) x->c3 = zp[n-1];
-	
-	/******************************************************************/
-	/*Si entrees signal mutées, on utilise le tableau P de contrôle.***/
-	if(x->mute || (!x->connected[1] && !x->connected[2] && !x->connected[3]) ) 
-		for( i=0; i<n; i++)
-		 {
-			//on stocke l'échantillon d'entrée dans une variable temporaire,
-			son = son_in[i];
-			
-			//Modulation des sorties avec les coefficients ambisoniques Pn.
-			for( hp = Nhp-1; hp >= 0; hp--)
-			 {
-				//Incrémentation des P pour l'interpolation,
-				if( x->P[hp] == x->Pstop[hp] ) /*rien*/;
-				else if ( fabs(x->Pstop[hp] - x->P[hp]) > fabs(x->dP[hp]) )
-					x->P[hp] += x->dP[hp];
-				else
-					x->P[hp] = x->Pstop[hp];
-				
-				/******************************/
-				out[hp][i] = son * x->P[hp];/**/
-				/******************************/
-			 }
-		 }
-	
-	/******************************************************************/
-	/*Si entrées signal non mutées, on utilise les vecteurs de signal**/
-	else 
-		for( i=n-1; i>=0; i--)
-		 {
-			son = son_in[i];    //On stocke les échantillons d'entrée, dans des
-			xl = x->connected[1] ? xp[i] : x->c1;
-			yl = x->connected[2] ? yp[i] : x->c2;
-			zl = x->connected[3] ? zp[i] : x->c3;
-			
-			//Conversion cylindriques -> cartésiennes,
-			if( !x->base )
-			 {
-				phii = (int)( yl*T_COS*I360 )&(int)MASQUE; 
-				xtemp    = xl*x->cosin[ phii ];
-				phii = (int)(.25*T_COS - phii)&(int)MASQUE;
-				yl       = xl*x->cosin[ phii ];
-				xl = xtemp;
-			 }
-			//Conversion sphériques -> cartésiennes,
-			if( x->base == 2 )
-			 { 
-				 phii = (int)( yl*T_COS*I360 )&(int)MASQUE; 
-				 ksii = (int)( .25*T_COS - zl*T_COS*I360 )&(int)MASQUE; 
-				 xtemp    = xl*x->cosin[ phii ]*x->cosin[ ksii ];
-				 phii = (int)(.25*T_COS - phii)&(int)MASQUE;
-				 yl       = xl*x->cosin[ phii ]*x->cosin[ ksii ];
-				 ksii = (int)(.25*T_COS - ksii)&(int)MASQUE;
-				 zl       = xl*x->cosin[ ksii ];
-				 xl = xtemp;
-			 }
-			
-			//Calcul des distances,
-			ds   = xl*xl + yl*yl + zl*zl;
-			dist = (float)sqrt(ds);
-			
-			//Calcul des paramètres ambisoniques,
-			X = (float)( 2*xl/(ds + offset) ); 
-			Y = (float)( 2*yl/(ds + offset) );  
-			Z = (float)( 2*zl/(ds + offset) ); 
-			W = (float)( .707/(dist + offset) );
-			
-			//Décodage de l'ambisonie:
-			for( hp=Nhp-1; hp >= 0 ; hp--)
-			 {
-				P = K  * ( W + X*x->cos_teta[hp]*x->cos_elev[hp]  
-						  + Y*x->sin_teta[hp]*x->cos_elev[hp]
-						  + Z*x->sin_elev[hp] );
-				
-				//Si Pn<0 on les force à 0
-				if(P < 0)            P = 0;
-				
-				/***********************/
-				out[hp][i] = son * P;/**/
-				/***********************/
-			 }
-		 }
-
-noProcess :
-	
-	return ( w+retour );
+    int i;
+    for(i=0; i<4; i++) x->connected[i] = count[i];
+    object_method(dsp64, gensym("dsp_add64"), x, ambicube_tilde_perform_signal64, 0, NULL);
 }
-
-//----------------------------------------------------------------------------------
-//                perform64
-//----------------------------------------------------------------------------------
 
 void  ambicube_tilde_perform_signal64(t_ambicube_tilde *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long sampleframes, long flags, void *userparam)
 
@@ -633,7 +503,9 @@ void ambicube_tilde_recoit_z(t_ambicube_tilde *x, double zp)
 
 void ambicube_tilde_recoit_liste(t_ambicube_tilde *x, t_symbol *s, int argc, t_atom *argv)
 {
-  float xp, yp = 0, zp = 0;
+    float xp = 0.f;
+    float yp = 0.f;
+    float zp = 0.f;
   
   //Récupération du premier paramètre (abscisse ou rayon),
   if( argv[0].a_type == A_FLOAT )
@@ -750,7 +622,7 @@ void ambicube_tilde_dest(t_ambicube_tilde *x)
 void *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv )
 {
 	int    i, hp, newVersion;
-	char   car;
+	char   car = 'c';
 	
 	/*Allocation de la dataspace ****************************/
 	t_ambicube_tilde *x = object_alloc(ambicube_tilde_class);
@@ -783,10 +655,8 @@ void *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	
 	if (!newVersion) { // si ancienne version : arg 4 = offset, arg 5 = interp time :
 		/*Récupération de l'offset ***************************/
-		if( argc >= 3 && argv[2].a_type == A_FLOAT )
-			x->offset = fabs(argv[2].a_w.w_float);
-		else if( argc >= 3 && argv[2].a_type == A_LONG )
-			x->offset = fabs(argv[2].a_w.w_long);
+        if( argc >= 3 && (atom_gettype(argv+2) == A_FLOAT || atom_gettype(argv+2) == A_LONG) )
+            x->offset = fabs(atom_getfloat(argv+2));
 		else
 			x->offset = (float)OFFSET;
 		if( x->offset <= EPSILON ){
@@ -806,10 +676,8 @@ void *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	else {
 		
 		/*Récupération de l'offset ***************************/
-		if( argc >= 2 && argv[1].a_type == A_FLOAT )
-			x->offset = fabs(argv[1].a_w.w_float);
-		else if( argc >= 3 && argv[1].a_type == A_LONG )
-			x->offset = fabs(argv[1].a_w.w_long);
+        if( argc >= 2 && (atom_gettype(argv+1) == A_FLOAT || atom_gettype(argv+1) == A_LONG) )
+            x->offset = fabs(atom_getfloat(argv+1));
 		else
 			x->offset = (float)OFFSET;
 		if( x->offset <= EPSILON ){
@@ -926,7 +794,6 @@ void ext_main(void *r)
 						   (short)sizeof(t_ambicube_tilde), NULL, A_GIMME, 0);
 	
 	//-------------Définition des méthodes-------------------//
-	class_addmethod(c, (method)ambicube_tilde_dsp, "dsp", A_CANT, 0);
 	class_addmethod(c, (method)ambicube_tilde_dsp64, "dsp64", A_CANT, 0);
 	class_addmethod(c, (method)ambicube_tilde_recoit_liste, "list", A_GIMME, 0);
 	class_addmethod(c, (method)ambicube_tilde_recoit_float, "float", A_FLOAT, 0);
@@ -940,32 +807,4 @@ void ext_main(void *r)
 	class_dspinit(c);
 	class_register(CLASS_BOX, c);
 	ambicube_tilde_class = c;
-}
-
-
-
-
-/**********************************************************************/
-/*                       METHODE DSP                                  */
-/**********************************************************************/
-
-void ambicube_tilde_dsp(t_ambicube_tilde *x, t_signal **sp, short *count)
-{
-	long i;
-	for(i=0; i<4; i++) x->connected[i] = count[i];
-	
-	dsp_add(ambicube_tilde_perform_signal, 14, x,
-			sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec,
-			sp[3]->s_vec, sp[4]->s_vec, sp[5]->s_vec, 
-			sp[6]->s_vec, sp[7]->s_vec, sp[8]->s_vec, 
-			sp[9]->s_vec, sp[10]->s_vec, sp[11]->s_vec,
-			sp[0]->s_n);
-}
-
-
-void ambicube_tilde_dsp64(t_ambicube_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags)
-{
-	int i;
-	for(i=0; i<4; i++) x->connected[i] = count[i];
-	object_method(dsp64, gensym("dsp_add64"), x, ambicube_tilde_perform_signal64, 0, NULL);
 }
