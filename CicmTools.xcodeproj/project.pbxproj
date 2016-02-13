@@ -218,7 +218,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0720;
 			};
 			buildConfigurationList = 2FBBEACF08F335010078DB84 /* Build configuration list for PBXProject "CicmTools" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -318,7 +318,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -336,6 +335,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cycling74.${PRODUCT_NAME:rfc1034identifier}";
 			};
 			name = Development;
 		};
@@ -343,7 +343,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -360,6 +359,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cycling74.${PRODUCT_NAME:rfc1034identifier}";
 			};
 			name = Deployment;
 		};
@@ -367,7 +367,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -385,6 +384,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cycling74.${PRODUCT_NAME:rfc1034identifier}";
 			};
 			name = Development;
 		};
@@ -392,7 +392,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -409,13 +408,15 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cycling74.${PRODUCT_NAME:rfc1034identifier}";
 			};
 			name = Deployment;
 		};
 		2FBBEAD008F335010078DB84 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ENABLE_TESTABILITY = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(C74_SYM_LINKER_FLAGS)";
 			};
 			name = Development;
@@ -423,7 +424,6 @@
 		2FBBEAD108F335010078DB84 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				OTHER_LDFLAGS = "$(C74_SYM_LINKER_FLAGS)";
 			};
 			name = Deployment;
@@ -432,7 +432,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -450,6 +449,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cycling74.${PRODUCT_NAME:rfc1034identifier}";
 			};
 			name = Development;
 		};
@@ -457,7 +457,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2C0E4D1E1C6F961700CA6B01 /* maxmspsdk.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -474,6 +473,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cycling74.${PRODUCT_NAME:rfc1034identifier}";
 			};
 			name = Deployment;
 		};

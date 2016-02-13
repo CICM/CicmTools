@@ -132,8 +132,6 @@ typedef struct _ambipan_tilde
 /*      Prototypage des fonctions et méthodes.     	                  */
 /**********************************************************************/
 
-void  ambipan_tilde_dsp(t_ambipan_tilde *x, t_signal **sp, short *count);
-t_int *ambipan_tilde_perform_signal(t_int *w);
 void  ambipan_tilde_dsp64(t_ambipan_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags);
 void  ambipan_tilde_perform_signal64(t_ambipan_tilde *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long sampleframes, long flags, void *userparam);
 void  ambipan_tilde_recoit_x(t_ambipan_tilde *x, double xp);
@@ -148,149 +146,24 @@ void  ambipan_tilde_changer_type_repere(t_ambipan_tilde *x, t_symbol *sym);
 void  ambipan_tilde_muter_entrees_signal(t_ambipan_tilde *x, int mute);
 void  ambipan_tilde_informations( t_ambipan_tilde *x );
 void  ambipan_tilde_dest(t_ambipan_tilde *x);
-void  *ambipan_tilde_new(t_symbol *s, int argc, Atom *argv );
+void  *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv );
 void  ambipan_tilde_assist(t_ambipan_tilde *x, void *b, long m, long a, char *s);
 void  ambipan_tilde_recoit_float(t_ambipan_tilde *x, double data);
 
-
 /**********************************************************************/
-/*      TRAITEMENT DU SIGNAL avec coordonnées recues en signal.       */
+/*                       METHODE DSP                                  */
 /**********************************************************************/
 
-t_int *ambipan_tilde_perform_signal(t_int *w)
+void ambipan_tilde_dsp64(t_ambipan_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags)
 {
-	/*Préparation des pointeurs****************************************/
-	t_ambipan_tilde *x = (t_ambipan_tilde *)(w[1]);//adresse de la dataspace
-	float     *son_in   = (t_float *)(w[2]);       //son en entrée
-	float     *xp       = (t_float *)(w[3]);       //réception de x
-	float     *yp       = (t_float *)(w[4]);       //réception de y
-	int       n         = (int)(w[5+x->Nout]);     //taille des blocs
-	
-	/*Déclarations des variables locales*/
-	float son;            //variable temporaire,
-	int   hp;             //indices relatif au haut-parleur,
-	int   i;              //indices du n° de l'échantillon,
-	int   N = x->N;       //Nombre de haut-parleur,_
-	int   retour = x->Nout + 6; //retour pour pure data,
-	float offset = x->offset;
-	
-	float K = (float)(sqrt(1/(float)N)/1.66);   //Facteur correctif.
-	
-	//Paramètres ambisoniques:
-	float xtemp, xl, yl, ds, dist, X, Y, W, P;
-	int   phii;
-	
-	/*Préparation des pointeurs des sorties ***************************/
-	float *out[Nmax];
-	for( hp = 0; hp < x->Nout; hp++)
-		out[hp] = (t_float *)(w[hp+5]);
-	
-	/******************************************************************/
-	/*  zero  **************************************************/
-	
-	if (x->x_obj.z_disabled) goto noProcess;
-	if (!x->connected[0]) {
-		for( i=0; i<n; i++) for( hp = 0; hp < x->Nout; hp++) out[hp][i] = 0;/**/
-		goto noProcess;
-	}
-	
-	/******************************************************************/
-	/*  Traitements  **************************************************/
-	
-	if (x->connected[1]) x->c1 = xp[n-1];
-	if (x->connected[2]) x->c2 = yp[n-1];
-	
-	/******************************************************************/
-	/*Si entrees signal mutées, on utilise le tableau P de contrôle.***/
-	if(x->mute || (!x->connected[1] && !x->connected[2])) 
-		for( i=0; i<n; i++)
-		 {
-			//on stocke l'échantillon d'entrée dans une variable temporaire
-			//car son_in = out[0].
-			son = son_in[i];
-			
-			//Modulation des sorties avec les coefficients ambisoniques Pn.
-			for( hp = N-1; hp >= 0; hp--)
-			 {
-				//Incrémentation des P pour l'interpolation,
-				if( x->P[hp] == x->Pstop[hp] ) /*rien*/  ;
-				else if ( fabs(x->Pstop[hp] - x->P[hp]) > fabs(x->dP[hp]) )
-					x->P[hp] += x->dP[hp];
-				else
-					x->P[hp] = x->Pstop[hp];
-				
-				/******************************/
-				out[hp][i] = son * x->P[hp];/**/
-				/******************************/
-			 }
-		 }
-	
-	/******************************************************************/
-	/*Si entrées signal non mutées, on utilise les vecteurs de signal**/
-	else 
-		for( i=n-1; i>=0; i--)
-		 {
-			son = son_in[i];    //On stocke les échantillons d'entrée, dans des
-			//xl = xp[i];         //constantes, car elles vont être écrasées.
-			//yl = yp[i];
-			
-			xl = x->connected[1] ? x->c1 = xp[i] : x->c1;
-			yl = x->connected[2] ? x->c2 = yp[i] : x->c2;
-			//xl = x->connected[1] ? xp[i] : x->c1;
-			//yl = x->connected[2] ? yp[i] : x->c2;
-			
-			//Conversion polaires -> cartésiennes,
-			if( !x->base )
-			 {
-				//ici xl = rayon et yl = angle, 
-				phii = (int)( yl*T_COS*I360 )&(int)MASQUE; 
-				xtemp    = xl*x->cosin[ phii ];
-				phii = (int)(.25*T_COS - phii)&(int)MASQUE;
-				yl       = xl*x->cosin[ phii ];
-				xl = xtemp;
-				//maintenant xl = abscisse et yl = ordonnée.  
-			 }
-			
-			//Calcul des distances,
-			ds   = xl*xl + yl*yl;
-			dist = (float)sqrt(ds);
-			
-			//Calcul des paramètres ambisoniques,
-			X = (float)( 2*xl / (ds + offset) ); 
-			Y = (float)( 2*yl / (ds + offset) ); 
-			W = (float)( .707 / (dist + offset) );
-			
-			for( hp=N-1; hp >= 0 ; hp--)
-			 {
-				P = K  * ( W + X*x->cos_teta[hp]  
-						  + Y*x->sin_teta[hp]  )
-				* x->dist[hp];
-				
-				//Si Pn<0 on les force à 0
-				if(P < 0)            P = 0;
-				
-				/***********************/
-				out[hp][i] = son * P;/**/
-				/***********************/
-			 }
-		 }
-	
-	
-	/*Initialisation à zéro des sorties inutilisées*/
-	if( x->Nout > x->N){
-		for( hp = x->Nout-1 ; hp >= N ; hp--){
-			for( i=n-1 ; i>=0; i--)
-				out[hp][i] = 0;
-		}
-	}
-	
-	noProcess :
-	return (w+retour );
+    int i;
+    for(i=0; i<3; i++) x->connected[i] = count[i];
+    object_method(dsp64, gensym("dsp_add64"), x, ambipan_tilde_perform_signal64, 0, NULL);
 }
 
-//----------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------//
 
-void  ambipan_tilde_perform_signal64(t_ambipan_tilde *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long sampleframes, long flags, void *userparam)
+void ambipan_tilde_perform_signal64(t_ambipan_tilde *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long sampleframes, long flags, void *userparam)
 {
 	/*Préparation des pointeurs****************************************/
 	t_double     *son_in   = ins[0];       //son en entrée
@@ -549,21 +422,18 @@ void ambipan_tilde_recoit_y(t_ambipan_tilde *x, double yp)
 
 void ambipan_tilde_recoit_liste( t_ambipan_tilde *x, t_symbol *s, int argc, t_atom *argv)
 {
-  float xp, yp = 0;
+    float xp = 0.f;
+    float yp = 0.f;
   
   //Récupération du premier paramètre (abscisse ou rayon),
-  if( argv[0].a_type == A_FLOAT )
-    xp = argv[0].a_w.w_float;
-  else if( argv[0].a_type == A_LONG )
-    xp = (float)(argv[0].a_w.w_long);
+  if( atom_gettype(argv) == A_FLOAT || atom_gettype(argv) == A_LONG)
+      xp = atom_getfloat(argv);
     
   //Récupération du second paramètre (ordonnée ou angle),
   if( argc >= 2 )
   {
-    if( argv[1].a_type == A_FLOAT )
-      yp = argv[1].a_w.w_float;
-    else if( argv[1].a_type == A_LONG )
-      yp = (float)(argv[1].a_w.w_long);
+    if( atom_gettype(argv+1) == A_FLOAT || atom_gettype(argv+1) == A_LONG )
+      yp = atom_getfloat(argv+1);
   } 
   //si qu'un paramËtre, on prend la valeur dÈja prÈsente.
   else if( x->base )     yp = x->y;
@@ -574,8 +444,6 @@ void ambipan_tilde_recoit_liste( t_ambipan_tilde *x, t_symbol *s, int argc, t_at
   else             x->phi = yp*Pi/180;
 
   ambipan_tilde_recoit_x( x, xp);
-
-  return;
 }
 
 
@@ -632,7 +500,7 @@ void ambipan_tilde_dist_teta_positionner_hp( t_ambipan_tilde *x, t_symbol *s, in
     else if( argv[2*hp].a_type == A_LONG )
       x->dist[hp] = (float)(argv[2*hp].a_w.w_long);
     else if( argv[2*hp].a_type == A_SYM ){
-      object_error((t_object *)x, "les membres de la liste doivent être des nombres.");
+      object_error((t_object *)x, "members of the list must be float or int");
       return;
     }
 
@@ -644,7 +512,7 @@ void ambipan_tilde_dist_teta_positionner_hp( t_ambipan_tilde *x, t_symbol *s, in
       else if( argv[2*hp+1].a_type == A_LONG )
         x->teta[hp] = (float)((argv[2*hp+1].a_w.w_long)*Pi/180);
       else if( argv[2*hp+1].a_type == A_SYM ){
-        object_error((t_object *)x, "les membres de la liste doivent être des nombres.");
+        object_error((t_object *)x, "members of the list must be float or int");
         return;
       }
     }
@@ -682,7 +550,7 @@ void ambipan_tilde_xy_positionner_hp( t_ambipan_tilde *x, t_symbol *s, int argc,
     else if( argv[2*hp].a_type == A_LONG )
       xp = (float)(argv[2*hp].a_w.w_long);
     else if( argv[2*hp].a_type == A_SYM ){
-      object_error((t_object *)x, "les membres de la liste doivent être des nombres.");
+      object_error((t_object *)x, "members of the list must be float or int");
       return;
     }
 
@@ -694,7 +562,7 @@ void ambipan_tilde_xy_positionner_hp( t_ambipan_tilde *x, t_symbol *s, int argc,
       else if( argv[2*hp+1].a_type == A_LONG )
         yp = (float)(argv[2*hp+1].a_w.w_long);
       else if( argv[2*hp+1].a_type == A_SYM ){
-        object_error((t_object *)x, "les membres de la liste doivent être des nombres.");
+        object_error((t_object *)x, "members of the list must be float or int");
         return;
       }
     }
@@ -761,9 +629,7 @@ void ambipan_tilde_initialiser_nb_hp( t_ambipan_tilde *x, long N)
       }
   }  
   else
-    object_error((t_object *)x, "Le nombre de haut-parleurs doit etre "
-                    "inferieur a %d, \n"
-                    "  et superieur à 2, ou egal.", x->Nout);
+      object_error((t_object *)x, "The number of loudspeakers must be between 2 and %d", x->Nout);
     
   /*Affectation des gains de l'ambisonie*/
     if(x->base)     ambipan_tilde_recoit_x( x, x->x);
@@ -790,7 +656,7 @@ void  ambipan_tilde_muter_entrees_signal(t_ambipan_tilde *x, int mute)
 void ambipan_tilde_changer_offset( t_ambipan_tilde *x, double val)
 {    
   if( val <= EPSILON ){
-    object_error((t_object *)x, "Pas d'offset negatif ou nul s'il vous plait.");
+    object_error((t_object *)x, "No negative offset please");
     return;
   }
 
@@ -855,10 +721,10 @@ void ambipan_tilde_informations( t_ambipan_tilde *x)
 	post("   nombre de haut-parleurs = %d," , x->N);
 	post("   position des haut-parleurs:");
 	for( hp=0; hp<x->N-1; hp++)
-		post("      hp n°%d: %f.x + %f.y,", hp+1, x->dist[hp]*cos(x->teta[hp]), 
+		post("      hp %d: %f.x + %f.y,", hp+1, x->dist[hp]*cos(x->teta[hp]),
 			 x->dist[hp]*sin(x->teta[hp]));
     
-	post("      hp n°%d: %f.x + %f.y.", hp+1, x->dist[hp]*cos(x->teta[hp]), 
+	post("      hp n %d: %f.x + %f.y.", hp+1, x->dist[hp]*cos(x->teta[hp]),
 		 x->dist[hp]*sin(x->teta[hp]));
 	post("      ***");
 }
@@ -906,7 +772,7 @@ void ambipan_tilde_dest(t_ambipan_tilde *x)
 void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 {
 	int    i, hp, newVersion;
-	char   car;
+	char   car = 'c';
 	
 	
 	//--------- Allocation de la dataspace ---------------------------//
@@ -932,7 +798,7 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	/*Récupération du type repère ************************/
 	if( argc >=2 ){
 		if( argv[1].a_type == A_SYM )
-			car = (char)(argv[1].a_w.w_sym->s_name[0]);
+			car = (char)(atom_getsym(argv+1)->s_name[0]);
 		
 		if( car == 'c' )
 			x->base=1;
@@ -954,10 +820,8 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	
 	if (!newVersion) { // si ancienne version : arg 4 = offset, arg 5 = interp time :
 		/*Récupération de l'offset ***************************/
-		if( argc >= 4 && argv[3].a_type == A_FLOAT )
-			x->offset = fabs(argv[3].a_w.w_float);
-		else if( argc >= 4 && argv[3].a_type == A_LONG )
-			x->offset = fabs(argv[3].a_w.w_long);
+		if( argc >= 4 && (atom_gettype(argv+3) == A_FLOAT || atom_gettype(argv+3) == A_LONG) )
+			x->offset = fabs(atom_getfloat(argv+3));
 		else
 			x->offset = (float)OFFSET;
 		if( x->offset <= EPSILON ){
@@ -976,10 +840,8 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	}
 	else { // si ancienne version : arg 3 = offset, arg 4 = interp time :
 		/*Récupération de l'offset ***************************/
-		if( argc >= 3 && argv[2].a_type == A_FLOAT )
-			x->offset = fabs(argv[2].a_w.w_float);
-		else if( argc >= 3 && argv[2].a_type == A_LONG )
-			x->offset = fabs(argv[2].a_w.w_long);
+        if( argc >= 3 && (atom_gettype(argv+2) == A_FLOAT || atom_gettype(argv+2) == A_LONG) )
+            x->offset = fabs(atom_getfloat(argv+2));
 		else
 			x->offset = (float)OFFSET;
 		if( x->offset <= EPSILON ){
@@ -1061,7 +923,6 @@ void ext_main(void *r)
 						   (short)sizeof(t_ambipan_tilde), NULL, A_GIMME, 0);
 
 	//-------------Définition des méthodes-------------------//
-	class_addmethod(c, (method)ambipan_tilde_dsp, "dsp", A_CANT, 0);
 	class_addmethod(c, (method)ambipan_tilde_dsp64, "dsp64", A_CANT, 0);
 	class_addmethod(c, (method)ambipan_tilde_recoit_liste, "list", A_GIMME, 0);
 	class_addmethod(c, (method)ambipan_tilde_recoit_float, "float", A_FLOAT, 0);
@@ -1081,42 +942,4 @@ void ext_main(void *r)
 	class_register(CLASS_BOX, c);
     ambipan_tilde_class = c;
 }
-
-/**********************************************************************/
-/*                       METHODE DSP                                  */
-/**********************************************************************/
-
-void ambipan_tilde_dsp(t_ambipan_tilde *x, t_signal **sp, short *count)
-{
-	long i;
-	t_int **sigvec;
-	int pointer_count;
-	for(i=0; i<3; i++) x->connected[i] = count[i];
-	
-	pointer_count = x->Nout + 5; // object pointer, 3 inlet, all outlet and vec-samps
-	
-	sigvec  = (t_int **) calloc(pointer_count, sizeof(t_int *));
-	
-	for(i = 0; i < pointer_count; i++) sigvec[i] = (t_int *) calloc(sizeof(t_int),1);
-	
-	sigvec[0] = (t_int *)x; // first pointer is to the object
-	
-	sigvec[pointer_count - 1] = (t_int *)sp[0]->s_n; // last pointer is to vector size (N)
-	
-	for(i = 1; i < pointer_count-1; i++) sigvec[i] = (t_int *)sp[i-1]->s_vec;  // now attach the 3 inlets and all outlet
-	
-	dsp_addv(ambipan_tilde_perform_signal, pointer_count, (void **) sigvec); 
-	free(sigvec);
-}
-
-//---------------------------------------------------------------------//
-
-void  ambipan_tilde_dsp64(t_ambipan_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags)
-{
-	int i;
-	for(i=0; i<3; i++) x->connected[i] = count[i];
-	object_method(dsp64, gensym("dsp_add64"), x, ambipan_tilde_perform_signal64, 0, NULL);
-}
-
-//---------------------------------------------------------------------//
 

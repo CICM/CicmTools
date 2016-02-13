@@ -857,7 +857,7 @@ void vbapan_tilde_xy_positionner_hp( t_vbapan_tilde *x, t_symbol *s, int argc, t
     else if( argv[2*hp].a_type == A_LONG )
       xp = (float)(argv[2*hp].a_w.w_long);
     else if( argv[2*hp].a_type == A_SYM ){
-      object_error((t_object *)x, "les membres de la liste doivent être des nombres.");
+      object_error((t_object *)x, "members of the list must be float or int");
       return;
     }
 
