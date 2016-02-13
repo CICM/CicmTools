@@ -135,8 +135,6 @@ typedef struct _vbapan_tilde
 /*      Prototypage des fonctions et méthodes.     	                  */
 /**********************************************************************/
 
-void  vbapan_tilde_dsp(t_vbapan_tilde *x, t_signal **sp, short *count);
-t_int *vbapan_tilde_perform_signal(t_int *w);
 void  vbapan_tilde_dsp64(t_vbapan_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags);
 void  vbapan_tilde_perform_signal64(t_vbapan_tilde *x, t_object *dsp64, double **ins, long numins, double **outs, long numouts, long sampleframes, long flags, void *userparam);
 float vbapan_tilde_modulo( float anglep );
@@ -153,183 +151,20 @@ void  vbapan_tilde_changer_rayon_disq_centrale( t_vbapan_tilde *x, double val);
 void  vbapan_tilde_muter_entrees_signal(t_vbapan_tilde *x, int mute);
 void  vbapan_tilde_informations( t_vbapan_tilde *x );
 void  vbapan_tilde_dest(t_vbapan_tilde *x);
-void  *vbapan_tilde_new(t_symbol *s, int argc, Atom *argv );
+void  *vbapan_tilde_new(t_symbol *s, int argc, t_atom *argv );
 void  ambipan_tilde_assist(t_vbapan_tilde *x, void *b, long m, long a, char *s);
 void  ambipan_tilde_recoit_float(t_vbapan_tilde *x, double data);
 
 
 /**********************************************************************/
-/*      TRAITEMENT DU SIGNAL avec coordonnées recues en signal.       */
+/*                       METHODE DSP                                  */
 /**********************************************************************/
 
-t_int *vbapan_tilde_perform_signal(t_int *w)
+void vbapan_tilde_dsp64(t_vbapan_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags)
 {
-  /*Préparation des pointeurs****************************************/
-  t_vbapan_tilde *x = (t_vbapan_tilde *)(w[1]);//adresse de la dataspace
-  float     *son_in   = (t_float *)(w[2]);       //son en entrée
-  float     *xp       = (t_float *)(w[3]);       //réception de x
-  float     *yp       = (t_float *)(w[4]);       //réception de y
-  int       n         = (int)(w[5+x->Nout]);     //taille des blocs
-
-  /*Déclarations des variables locales*/
-  int   phii;           //angle en entier (de 0 à T_COS),
-  float son;            //variable temporaire,
-  int   hp;             //indice relatif au haut-parleur,
-  int   i;              //indice du n° de l'échantillon,
-  int   N = x->N;       //nombre de haut-parleurs,
-  int   retour = x->Nout + 6; //retour pour pure data,
-  float xl, yl, xtemp;  //coordonnéees cartésienne de la source,
-  float g[Nmax];        //gains des haut-parleurs (en signal),
-  float phi;            //angle de la source,
-  float r;              //rayon de la source.
-  float Puis, iAmp;     //puissance et amplitude des gains.
-  
-  
-  /*Préparation des pointeurs des sorties ***************************/
-  float *out[Nmax];
-  for( hp = 0; hp < x->Nout; hp++)
-    out[hp] = (t_float *)(w[hp+5]);
-	
-	
-	/******************************************************************/
-	/*  zero  **************************************************/
-	
-	if (x->x_obj.z_disabled) goto noProcess;
-	if (!x->connected[0]) {
-		for( i=0; i<n; i++) for( hp = 0; hp < x->Nout; hp++) out[hp][i] = 0;/**/
-		goto noProcess;
-	}
-
-  /******************************************************************/
-  /*  Traitements  **************************************************/
-	
-	if (x->connected[1]) x->c1 = xp[n-1];
-	if (x->connected[2]) x->c2 = yp[n-1];
-
-  /******************************************************************/
-  /*Si entrees signal mutées, on utilise le tableau P de contrôle.***/
-  if(x->mute || (!x->connected[1] && !x->connected[2])) 
-    for( i=0; i<n; i++)
-    {
-      //on stocke l'échantillon d'entrée dans une variable temporaire
-      //car son_in = out[0].
-      son = son_in[i];
-
-
-      //Modulation des sorties avec les gains Pn.
-      for( hp=N-1; hp >= 0; hp--)
-      {
-        //Incrémentation des gains pour l'interpolation,
-        if( x->G[hp] == x->Gstop[hp] ) /*rien*/  ;
-        else if ( fabs(x->Gstop[hp] - x->G[hp]) > fabs(x->dG[hp]) )
-          x->G[hp] += x->dG[hp];
-        else
-          x->G[hp] = x->Gstop[hp];
-
-        /******************************/
-        out[hp][i] = son * x->G[hp];/**/
-        /******************************/
-      }
-    }
-  
-  /******************************************************************/
-  /*Si entrées signal non mutées, on utilise les vecteurs de signal**/
-  else 
-    for( i=n-1; i>=0; i--)
-    {
-      son = son_in[i];    //On stocke les échantillons d'entrée, dans des
-      //xl = xp[i];         //variables, car elles vont être écrasées.
-      //yl = yp[i];
-	   
-	   xl = x->connected[1] ? x->c1 = xp[i] : x->c1;
-	   yl = x->connected[2] ? x->c2 = yp[i] : x->c2;
-  
-      /*Conversion polaires -> cartésiennes,*******/
-      if( !x->base )
-      {
-        phi = vbapan_tilde_modulo(yl)*Pi/180;
-        r = xl;
-        
-        //ici xl = rayon et yl = angle,
-        phii = (int)( yl*T_COS*I360 )&(int)MASQUE; 
-        xtemp    = xl*x->cosin[ phii ];
-        phii = (int)(.25*T_COS - phii)&(int)MASQUE;
-        yl       = xl*x->cosin[ phii ];
-        xl = xtemp;
-        //maintenant xl = abscisse et yl = ordonnée.
-        
-        //Si r est négatif on modifie les coordonnées,
-        if( r<0 ){
-          r = -r;
-          phi = (phi<Pi)?(phi+Pi):(phi-Pi);
-        }
-    
-      }
-      /*Conversion cartésienne -> polaire,**********/
-      else
-      {
-        r = sqrt( xl*xl+yl*yl );
-        phi = acos( xl/r );
-        if( yl < 0 )
-          phi = 2*Pi - phi;
-      }
-
-
-      //remise à zéro des gains:
-      for( hp=0; hp<x->N; hp++)
-        g[hp] = 0;
- 
-      //Recherche des hp encadrant le point:
-      for( hp=0; hp<x->N-1; hp++){
-        if( phi >= x->teta[x->rev[hp]] && phi < x->teta[x->rev[hp+1]] )
-          break;
-      }
-
-      //Calcul du gain:
-      g[x->rev[hp]]          = x->L[hp][0][0]*xl + x->L[hp][0][1]*yl;
-      g[x->rev[(hp+1)%x->N]] = x->L[hp][1][0]*xl + x->L[hp][1][1]*yl; 
-    
-      //Puissance du gain (source et hp sur le cercle) :
-      Puis =    ( g[x->rev[hp         ]]*g[x->rev[hp         ]] ) 
-              + ( g[x->rev[(hp+1)%x->N]]*g[x->rev[(hp+1)%x->N]] );
-      iAmp = (Puis <= EPSILON) ? 0 : (1/(float)sqrt(2*Puis));
-
-
-      if( r > x->r_c )
-      {
-        //Normalisation des g, et prise en compte des distances :
-        g[x->rev[hp]]            *=  iAmp * x->dst_hp[x->rev[ hp        ]] / r;
-        g[x->rev[(hp+1)%x->N]]   *=  iAmp * x->dst_hp[x->rev[(hp+1)%x->N]] / r;
-      }
-      else
-      {
-        //Calcul du gain (sur le disque central):
-        g[x->rev[hp]]            *=  iAmp * x->dst_hp[x->rev[ hp        ]] * r/(x->r_c*x->r_c);
-        g[x->rev[(hp+1)%x->N]]   *=  iAmp * x->dst_hp[x->rev[(hp+1)%x->N]] * r/(x->r_c*x->r_c);
-        //ici le gain est proportionnelle ‡ r/r_c dans le disque.
-        
-        //On mixe linÈairement l'effet VBAP avec les gains pour la position centrale:
-        for( hp=0; hp<x->N; hp++)
-          g[hp] += (1 - r/x->r_c) * x->G0[hp];
-      }
-      
-      for( hp=N-1; hp >= 0 ; hp--)
-      {
-        /***************************/
-        out[hp][i] = son * g[hp];/**/
-        /***************************/
-      }
-    }
-
-
-  /*Initialisation à zéro des sorties inutilisées*/
-  for( hp = x->Nout-1 ; hp >= N ; hp--){
-    for( i=n-1 ; i>=0; i--)
-      out[hp][i] = 0;
-  }
-
-noProcess:
-  return ( w+retour );
+    int i;
+    for(i=0; i<3; i++) x->connected[i] = count[i];
+    object_method(dsp64, gensym("dsp_add64"), x, vbapan_tilde_perform_signal64, 0, NULL);
 }
 
 //----------------------------------------------------------------------------------------------
@@ -933,9 +768,7 @@ void vbapan_tilde_initialiser_nb_hp( t_vbapan_tilde *x, long N)
     vbapan_tilde_init_hp_mat( x );
   }  
   else
-    object_error((t_object *)x, "Le nombre de haut-parleurs doit être "
-                   "inférieur à %d, \n"
-                   "  et supérieur à 3, ou égal.", x->Nout);
+      object_error((t_object *)x, "The number of loudspeakers must be between 3 and %d", x->Nout);
     
   /*Affectation des gains */
   if(x->base)     vbapan_tilde_recoit_x( x, x->x);
@@ -1036,9 +869,9 @@ void vbapan_tilde_informations( t_vbapan_tilde *x)
   
   post("   position des haut-parleurs:");
   for( hp=0; hp<x->N-1; hp++)
-    post("      hp n°%d: %f.x + %f.y,", hp+1, x->x_hp[hp], x->y_hp[hp] );
+    post("      hp %d: %f.x + %f.y,", hp+1, x->x_hp[hp], x->y_hp[hp] );
     
-  post("      hp n°%d: %f.x + %f.y.", hp+1, x->x_hp[hp], x->y_hp[hp] );
+  post("      hp %d: %f.x + %f.y.", hp+1, x->x_hp[hp], x->y_hp[hp] );
 	post("      ***");
 }
     
@@ -1084,7 +917,7 @@ void vbapan_tilde_dest(t_vbapan_tilde *x)
 void *vbapan_tilde_new( t_symbol *s, int argc, t_atom *argv )
 {
 	int    i, hp, newVersion;
-	char   car;
+	char   car = 'c';
 	
 	/*Allocation de la dataspace ****************************/
 	t_vbapan_tilde *x = object_alloc(vbapan_tilde_class);
@@ -1132,10 +965,8 @@ void *vbapan_tilde_new( t_symbol *s, int argc, t_atom *argv )
 	
 	if (!newVersion) { // si ancienne version : arg 4 = offset, arg 5 = interp time :
 		/*Récupération du rayon du disque central **************/
-		if( argc >= 4 && argv[3].a_type == A_FLOAT )
-			x->r_c = fabs(argv[3].a_w.w_float);
-		else if( argc >= 4 && argv[3].a_type == A_LONG )
-			x->r_c = fabs(argv[3].a_w.w_long);
+        if( argc >= 4 && (atom_gettype(argv+3) == A_FLOAT || atom_gettype(argv+3) == A_LONG) )
+            x->r_c = fabs(atom_getfloat(argv+3));
 		else
 			x->r_c = (float)Rdisq;
 		if( x->r_c <= EPSILON ){
@@ -1153,10 +984,8 @@ void *vbapan_tilde_new( t_symbol *s, int argc, t_atom *argv )
 	}
 	else {
 		/*Récupération du rayon du disque central **************/
-		if( argc >= 3 && argv[2].a_type == A_FLOAT )
-			x->r_c = fabs(argv[2].a_w.w_float);
-		else if( argc >= 3 && argv[2].a_type == A_LONG )
-			x->r_c = fabs(argv[2].a_w.w_long);
+        if( argc >= 3 && (atom_gettype(argv+2) == A_FLOAT || atom_gettype(argv+2) == A_LONG) )
+            x->r_c = fabs(atom_getfloat(argv+2));
 		else
 			x->r_c = (float)Rdisq;
 		if( x->r_c <= EPSILON ){
@@ -1238,7 +1067,6 @@ void ext_main(void *r)
 						   (short)sizeof(t_vbapan_tilde), NULL, A_GIMME, 0);
 	
 	//-------------Définition des méthodes-------------------//
-	class_addmethod(c, (method)vbapan_tilde_dsp, "dsp", A_CANT, 0);
 	class_addmethod(c, (method)vbapan_tilde_dsp64, "dsp64", A_CANT, 0);
 	class_addmethod(c, (method)vbapan_tilde_recoit_liste, "list", A_GIMME, 0);
 	class_addmethod(c, (method)vbapan_tilde_recoit_float, "float", A_FLOAT, 0);
@@ -1357,9 +1185,6 @@ void vbapan_tilde_init_hp_mat(t_vbapan_tilde *x)
     x->L[hp][1][1] =  ftemp*xhp1;
   }
 
-
-
-  
   //Boucle sur les quatres points pour calculer les gains de la position centrale.
   for( i = 0; i < 4; i++ )
   {
@@ -1400,41 +1225,3 @@ void vbapan_tilde_init_hp_mat(t_vbapan_tilde *x)
 
   return;
 }
-
-/**********************************************************************/
-/*                       METHODE DSP                                  */
-/**********************************************************************/
-
-void vbapan_tilde_dsp(t_vbapan_tilde *x, t_signal **sp, short *count)
-{
-	long i;
-	t_int **sigvec;
-	int pointer_count;
-	for(i=0; i<3; i++) x->connected[i] = count[i];
-	
-	pointer_count = x->Nout + 5; // object pointer, 3 inlet, all outlet and vec-samps
-	
-	sigvec  = (t_int **) calloc(pointer_count, sizeof(t_int *));
-	
-	for(i = 0; i < pointer_count; i++) sigvec[i] = (t_int *) calloc(sizeof(t_int),1);
-	
-	sigvec[0] = (t_int *)x; // first pointer is to the object
-	
-	sigvec[pointer_count - 1] = (t_int *)sp[0]->s_n; // last pointer is to vector size (N)
-	
-	for(i = 1; i < pointer_count-1; i++) sigvec[i] = (t_int *)sp[i-1]->s_vec;  // now attach the 3 inlets and all outlet
-	
-	dsp_addv(vbapan_tilde_perform_signal, pointer_count, (void **) sigvec); 
-	free(sigvec);
-}
-
-//---------------------------------------------------------------------//
-
-void vbapan_tilde_dsp64(t_vbapan_tilde *x, t_object *dsp64, short *count, double samplerate, long maxvectorsize, long flags)
-{
-	int i;
-	for(i=0; i<3; i++) x->connected[i] = count[i];
-	object_method(dsp64, gensym("dsp_add64"), x, vbapan_tilde_perform_signal64, 0, NULL);
-}
-
-//---------------------------------------------------------------------//
