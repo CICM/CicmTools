@@ -93,7 +93,7 @@
 /*         La classe                                      */
 /**********************************************************/
 
-void *vbapan_tilde_class;
+t_class* vbapan_tilde_class;
 
 typedef struct _vbapan_tilde
 {  
@@ -920,7 +920,7 @@ void *vbapan_tilde_new( t_symbol *s, int argc, t_atom *argv )
 	char   car = 'c';
 	
 	/*Allocation de la dataspace ****************************/
-	t_vbapan_tilde *x = object_alloc(vbapan_tilde_class);
+	t_vbapan_tilde *x = (t_vbapan_tilde *)object_alloc(vbapan_tilde_class);
 	
 	/********************************************************/
 	/*Récupération du nombre de sorties et de haut-parleurs */

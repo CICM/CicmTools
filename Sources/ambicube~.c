@@ -95,7 +95,7 @@
 /*         La classe                                      */
 /**********************************************************/
 
-void *ambicube_tilde_class;
+t_class* ambicube_tilde_class;
 
 typedef struct _ambicube_tilde
 {  
@@ -625,7 +625,7 @@ void *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	char   car = 'c';
 	
 	/*Allocation de la dataspace ****************************/
-	t_ambicube_tilde *x = object_alloc(ambicube_tilde_class);
+	t_ambicube_tilde *x = (t_ambicube_tilde *)object_alloc(ambicube_tilde_class);
 	
 	/*****************************************************/  
 	/*Récupération du type repère ************************/
