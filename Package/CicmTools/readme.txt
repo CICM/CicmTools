@@ -1,19 +1,1 @@
-/*    CICM-Tools Objects :        version 2.1        for Max 7, MacOsx and Windows                comments, info, bugs, suggestion, requests appreciated.         mail _at_ cicm.mshparisnord@gmail.com      */    Copyright (C) 2003-2004 RŽmi Mignot, MSH Paris-Nordspatialization externals set for Max by cycling74. 
-
-install notes:-    Place the CicmTools package in your Max Package directory    
-
-object listing and short description:ambipan~      2D Ambisonic B format.ambicube~     3D Ambisonic B format.vbapan~       2D Vector Base Amplitude Panning
-
-history:__history / changes vs.2.0
-
- - Update externals for Max 7
- - Package__history / changes vs.1.5
-
- -  reference files added. -  method assist.
- -  method Main updated.
- -  method DSP updated. works both with 32 an 64 bit signals.
- -  accept control and signal data (without having to specify it by an argument).
- -  optimization when the object is in a muted patcher context.
- -  objects don't freeze Max anymore when we delete an object with audio turned on.
- -  errors updated.
- -  64 loudspeakers Maximum for ambipan~/vbapan~.
+/*    CICM-Tools Objects :        version 2.1        for Max 7, MacOsx and Windows                comments, info, bugs, suggestion, requests appreciated.         mail _at_ cicm.mshparisnord@gmail.com      */    Copyright (C) 2003-2004 RŽmi Mignot, MSH Paris-Nordspatialization externals set for Max by cycling74. install notes:-    Place the CicmTools package in your Max Package directory    object listing and short description:ambipan~      2D Ambisonic B format.ambicube~     3D Ambisonic B format.vbapan~       2D Vector Base Amplitude Panninghistory:__history / changes vs.2.0 - Update externals for Max 7 - Package__history / changes vs.1.5 -  reference files added. -  method assist. -  method Main updated. -  method DSP updated. works both with 32 an 64 bit signals. -  accept control and signal data (without having to specify it by an argument). -  optimization when the object is in a muted patcher context. -  objects don't freeze Max anymore when we delete an object with audio turned on. -  errors updated. -  64 loudspeakers Maximum for ambipan~/vbapan~.
