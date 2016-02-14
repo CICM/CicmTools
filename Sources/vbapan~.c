@@ -73,7 +73,7 @@
 #include "CicmTools.h"
 
 #define   Nmax      64     //Nombre maximum de haut-parleurs,
-#define   Ndefaut   4      //Nombre de haut-parleurs par dŽfaut,
+#define   Ndefaut   4      //Number of loudspeakers par dŽfaut,
 #define   Xdefaut   0      //Valeur par dŽfaut de l'abscisse,
 #define   Ydefaut   1      //Valeur par dŽfaut de l'ordonnŽe,
 #define   Phidefaut 1.5708F//Valeur par dŽfaut de l'angle,
@@ -102,7 +102,7 @@ typedef struct _vbapan_tilde
   int	    base;         //Type de repre, 1->cartŽsienne, 0->polaire, 		
   int       mute;         //1->entrŽes signal mutŽes, 0->non mutŽes,
   int       Nout;         //Nombre de sorties,
-  int       N;            //Nombre de haut-parleurs.
+  int       N;            //Number of loudspeakers.
   
   float 	x,   y;       //CoordonnŽes de la source en cartŽsien,
   float     phi, r;       //CoordonnŽes polaires de la source,
@@ -182,7 +182,7 @@ void  vbapan_tilde_perform_signal64(t_vbapan_tilde *x, t_object *dsp64, double *
 	t_double son;            //variable temporaire,
 	int   hp;                //indice relatif au haut-parleur,
 	int   i;                 //indice du n¡ de l'Žchantillon,
-	int   N = x->N;          //nombre de haut-parleurs,
+	int   N = x->N;          //Number of loudspeakers,
 	t_double xl, yl, xtemp;  //coordonnŽees cartŽsienne de la source,
 	t_double g[Nmax];        //gains des haut-parleurs (en signal),
 	t_double phi;            //angle de la source,
@@ -600,7 +600,7 @@ void vbapan_tilde_teta_positionner_hp( t_vbapan_tilde *x, t_symbol *s, int argc,
     else if( argv[hp].a_type == A_LONG )
       x->teta[hp] = (vbapan_tilde_modulo((float)argv[hp].a_w.w_long)*Pi/180.);
     else if( argv[hp].a_type == A_SYM ){
-      object_error((t_object *)x, "les membres de la liste doivent etre des nombres.");
+      object_error((t_object *)x, "Members of the list must be float or int");
       return;
     }
 
@@ -640,7 +640,7 @@ void vbapan_tilde_dist_teta_positionner_hp( t_vbapan_tilde *x, t_symbol *s, int 
     else if( argv[2*hp].a_type == A_LONG )
       rayon = (float)(argv[2*hp].a_w.w_long);
     else if( argv[2*hp].a_type == A_SYM ){
-      object_error((t_object *)x, "les membres de la liste doivent etre des nombres.");
+      object_error((t_object *)x, "Members of the list must be float or int");
       return;
     }
 
@@ -652,7 +652,7 @@ void vbapan_tilde_dist_teta_positionner_hp( t_vbapan_tilde *x, t_symbol *s, int 
       else if( argv[2*hp+1].a_type == A_LONG )
         x->teta[hp] = (vbapan_tilde_modulo((float)argv[2*hp+1].a_w.w_long)*Pi/180);
       else if( argv[2*hp+1].a_type == A_SYM ){
-        object_error((t_object *)x, "les membres de la liste doivent etre des nombres.");
+        object_error((t_object *)x, "Members of the list must be float or int");
         return;
       }
     }
@@ -703,7 +703,7 @@ void vbapan_tilde_xy_positionner_hp( t_vbapan_tilde *x, t_symbol *s, int argc, t
       else if( argv[2*hp+1].a_type == A_LONG )
         yp = (float)(argv[2*hp+1].a_w.w_long);
       else if( argv[2*hp+1].a_type == A_SYM ){
-        object_error((t_object *)x, "les membres de la liste doivent etre des nombres.");
+        object_error((t_object *)x, "Members of the list must be float or int");
         return;
       }
     }
@@ -802,7 +802,7 @@ void vbapan_tilde_changer_type_repere(t_vbapan_tilde *x, t_symbol *sym)
   else if( sym->s_name[0] == 'p')
     x->base = 0; 
   else 
-    object_error((t_object *)x, "type de repere inconnu.");
+    object_error((t_object *)x, "Unknown type of coordinates");
     
   //Si coordonnŽes polaires il faut initialiser x->r et x->phi:
   if( x->base == 0 )    //(Inutile en fait).
@@ -857,17 +857,17 @@ void vbapan_tilde_informations( t_vbapan_tilde *x)
   
   object_post((t_object *)x, "Info Vbapan~: ");
   
-	if(x->base) post("   coordonnees cartesiennes,");
-	else post("   coordonnees polaires,");
+	if(x->base) post("   Cartesian coordinates,");
+	else post("   Polar coordinates,");
     
-	if(!x->mute)	post("   avec entrees signal actives,");
-	else post("   avec entrees signal inactives,");
+	if(!x->mute)	post("   With active signal inlets,");
+	else post("   With inactive signal inlets,");
 
-  post("   rayon du disque central = %f,", x->r_c);
-  post("   temps d'interpolation (pour le controle)  = %d ms,", (int)(x->dtime*1000/sys_getsr()));
-  post("   nombre de haut-parleurs = %d," , x->N);
+  post("   Radius of the central disc = %f,", x->r_c);
+  post("   Interpolation time (for control)  = %d ms,", (int)(x->dtime*1000/sys_getsr()));
+  post("   Number of loudspeakers = %d," , x->N);
   
-  post("   position des haut-parleurs:");
+  post("   Position of the loudspeakers:");
   for( hp=0; hp<x->N-1; hp++)
     post("      hp %d: %f.x + %f.y,", hp+1, x->x_hp[hp], x->y_hp[hp] );
     
@@ -933,7 +933,7 @@ void *vbapan_tilde_new( t_symbol *s, int argc, t_atom *argv )
 	
 	if( x->N <= 2 || x->N > Nmax ){
 		x->N = Ndefaut;
-		object_error((t_object *)x, "Il y a un probleme dans la declaration du nombre de haut-parleur, il est de %d par defaut.", Ndefaut);
+		object_error((t_object *)x, "Bad number of loudspeaker setup, %d by default", Ndefaut);
 	}
 	x->Nout = x->N;  //Mme nombre de sorties et d'haut-parleur.
 	
@@ -949,7 +949,7 @@ void *vbapan_tilde_new( t_symbol *s, int argc, t_atom *argv )
 			x->base=0;
 		else {
 			x->base=1;
-			object_error((t_object *)x, "erreur dans le type des coordonnees, elles sont cartesiennes par defaut.");
+			object_error((t_object *)x, "Unknown type of coordinates, cartesian by default");
 		}
 	}
 	else 
@@ -958,7 +958,7 @@ void *vbapan_tilde_new( t_symbol *s, int argc, t_atom *argv )
     
 	/*RŽcupŽration du type des entrŽes (pour des questions de compatibilitŽ avec l'ancienne version) *******************/
 	if( argc >=3 && argv[2].a_type == A_SYM){
-		object_error((t_object *)x, "l'argument signal/controle est sans effet dans cette version.");
+		object_error((t_object *)x, "The signal/control argument has no effect in this version");
 		newVersion = 0;
 	} else newVersion = 1;
 	

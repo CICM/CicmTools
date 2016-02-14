@@ -74,7 +74,7 @@
 #include "CicmTools.h"
 
 #define   Nmax      64     //Nombre maximum de haut-parleurs,
-#define   Ndefaut   4      //Nombre de haut-parleurs par dŽfaut,
+#define   Ndefaut   4      //Number of loudspeakers par dŽfaut,
 #define   Xdefaut   0      //Valeur par defaut de l'absisse,
 #define   Ydefaut   1      //Valeur par dŽfaut de l'ordonnŽe,
 #define   Phidefaut 1.5708F//Valeur par dŽfaut de l'angle (PI/2),
@@ -103,7 +103,7 @@ typedef struct _ambipan_tilde
 	int     base;         //Type de base, 1->cartŽsienne, 0->polaire,
 	int     mute;         //1->entrŽes signal mutŽes, 0->non mutŽes,
 	int     Nout;         //Nombre de sorties,
-	int     N;            //Nombre de haut-parleurs.
+	int     N;            //Number of loudspeakers.
 	
 	float   x, y;         //CoordonnŽes de la source en cartŽsien,
 	float   phi, r;       //CoordonnŽes polaires de la source,
@@ -464,7 +464,7 @@ void ambipan_tilde_teta_positionner_hp( t_ambipan_tilde *x, t_symbol *s, int arg
     else if( argv[hp].a_type == A_LONG )
       x->teta[hp] = (float)((argv[hp].a_w.w_long)*Pi/180.);
     else if( argv[hp].a_type == A_SYM ){
-      object_error((t_object *)x, "les membres de la liste doivent etre des nombres.");
+      object_error((t_object *)x, "Members of the list must be float or int");
       return;
     }
     
@@ -681,7 +681,7 @@ void ambipan_tilde_changer_type_repere( t_ambipan_tilde *x, t_symbol *sym)
   else if( sym->s_name[0] == 'p')
     x->base = 0; 
   else 
-    object_error((t_object *)x, "type de repere inconnu.");
+    object_error((t_object *)x, "Unknown type of coordinates");
     
   //Si coordonnŽes polaires il faut initialiser x->r et x->phi:
   if( x->base == 0 )
@@ -710,16 +710,16 @@ void ambipan_tilde_informations( t_ambipan_tilde *x)
 	int hp;
 	object_post((t_object *)x, "Info Ambipan~ : ");
 	
-	if(x->base) post("   coordonnees cartesiennes,");
-	else post("   coordonnees polaires,");
+	if(x->base) post("   Cartesian coordinates,");
+	else post("   Polar coordinates,");
     
-	if(!x->mute)	post("   avec entrees signal actives,");
-	else post("   avec entrees signal inactives,");
+	if(!x->mute)	post("   With active signal inlets,");
+	else post("   With inactive signal inlets,");
 	
-	post("   offset                 = %f,", x->offset);
-	post("   temps d'interpolation (pour le controle)  = %d ms,", (int)(x->dtime*1000/sys_getsr()));
-	post("   nombre de haut-parleurs = %d," , x->N);
-	post("   position des haut-parleurs:");
+	post("   Offset                 = %f,", x->offset);
+	post("   Interpolation time (for control)  = %d ms,", (int)(x->dtime*1000/sys_getsr()));
+	post("   Number of loudspeakers = %d," , x->N);
+	post("   Position of the loudspeakers:");
 	for( hp=0; hp<x->N-1; hp++)
 		post("      hp %d: %f.x + %f.y,", hp+1, x->dist[hp]*cos(x->teta[hp]),
 			 x->dist[hp]*sin(x->teta[hp]));
@@ -791,7 +791,7 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	
 	if( Nmax < x->N || 2 > x->N ){
 		x->N = Ndefaut;
-		object_error((t_object *)x, "Il y a un probleme dans la declaration du nombre de haut-parleur, il est de %d par defaut.", Ndefaut);
+		object_error((t_object *)x, "Bad number of loudspeaker setup, %d by default", Ndefaut);
 	}
 	x->Nout = x->N;  //Même nombre de sorties et d'haut-parleur.
 	
@@ -806,7 +806,7 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 			x->base=0;
 		else {
 			x->base=1;
-			object_error((t_object *)x, "erreur dans le type des coordonnees, elles sont cartesiennes par defaut.");
+			object_error((t_object *)x, "Unknown type of coordinates, cartesian by default");
 		}
 	}
 	else 
@@ -814,7 +814,7 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
     
 	/*RŽcupŽration du type des entrŽes (pour des questions de compatibilitŽ avec l'ancienne version) *******************/
 	if( argc >=3 && argv[2].a_type == A_SYM){
-		object_error((t_object *)x, "l'argument signal/controle est sans effet dans cette version.");
+		object_error((t_object *)x, "The signal/control argument has no effect in this version");
 		newVersion = 0;
 	} else newVersion = 1;
 	
@@ -825,7 +825,7 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 		else
 			x->offset = (float)OFFSET;
 		if( x->offset <= EPSILON ){
-			object_error((t_object *)x, "Pas d'offset negatif ou nul s'il vous plait.");
+			object_error((t_object *)x, "No negative offset please");
 			x->offset = (float)OFFSET;;
 		}
 		
@@ -845,7 +845,7 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 		else
 			x->offset = (float)OFFSET;
 		if( x->offset <= EPSILON ){
-			object_error((t_object *)x, "Pas d'offset negatif ou nul s'il vous plait.");
+			object_error((t_object *)x, "No negative offset please");
 			x->offset = (float)OFFSET;;
 		}
 		

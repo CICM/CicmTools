@@ -562,7 +562,7 @@ void ambicube_tilde_changer_type_repere( t_ambicube_tilde *x, t_symbol *sym)
   else if( sym->s_name[0] == 's')
     x->base = 2;
   else 
-    object_error((t_object *)x, "type de repere inconnu.");
+    object_error((t_object *)x, "Unknown type of coordinates");
 }
 
 
@@ -588,7 +588,7 @@ void  ambicube_tilde_muter_entrees_signal(t_ambicube_tilde *x, int mute)
 void  ambicube_tilde_changer_offset(t_ambicube_tilde *x, double val)
 {
 	if( val <= EPSILON ){
-		object_error((t_object *)x, "Pas d'offset negatif ou nul s'il vous plait.");
+		object_error((t_object *)x, "No negative offset please");
 		return;
 	}
 	
@@ -641,7 +641,7 @@ void *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv )
 			x->base=2;
 		else {
 			x->base=1;
-			object_error((t_object *)x, "erreur dans le type des coordonnees, elles sont cartesiennes par defaut.");
+			object_error((t_object *)x, "Unknown type of coordinates, cartesian by default");
 		}
 	}
 	else 
@@ -649,7 +649,7 @@ void *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	
 	/*RŽcupŽration du type des entrŽes (pour des questions de compatibilitŽ avec l'ancienne version) *******************/
 	if( argc >=2 && argv[1].a_type == A_SYM){
-		object_error((t_object *)x, "l'argument signal/controle est sans effet dans cette version.");
+		object_error((t_object *)x, "The signal/control argument has no effect in this version");
 		newVersion = 0;
 	} else newVersion = 1;
 	
@@ -660,7 +660,7 @@ void *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv )
 		else
 			x->offset = (float)OFFSET;
 		if( x->offset <= EPSILON ){
-			object_error((t_object *)x, "Pas d'offset negatif ou nul s'il vous plait.");
+			object_error((t_object *)x, "No negative offset please");
 			x->offset = (float)OFFSET;;
 		}
 		
@@ -681,7 +681,7 @@ void *ambicube_tilde_new(t_symbol *s, int argc, t_atom *argv )
 		else
 			x->offset = (float)OFFSET;
 		if( x->offset <= EPSILON ){
-			object_error((t_object *)x, "Pas d'offset negatif ou nul s'il vous plait.");
+			object_error((t_object *)x, "No negative offset please");
 			x->offset = (float)OFFSET;;
 		}
 		
