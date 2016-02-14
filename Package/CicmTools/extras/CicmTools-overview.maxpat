@@ -3,8 +3,8 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 0,
-			"revision" : 3,
+			"minor" : 1,
+			"revision" : 0,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
@@ -65,7 +65,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 198.0, 152.0, 273.0, 35.0 ],
 					"style" : "",
-					"text" : ";\r\nmax launchbrowser http://cicm.mshparisnord.org/"
+					"text" : ";\rmax launchbrowser http://cicm.mshparisnord.org/"
 				}
 
 			}
@@ -155,9 +155,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 70.0, 246.327576, 65.0, 25.0 ],
+					"patching_rect" : [ 70.0, 246.327576, 65.0, 24.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 18.0, 157.327576, 65.0, 25.0 ],
+					"presentation_rect" : [ 18.0, 157.327576, 65.0, 24.0 ],
 					"style" : "",
 					"text" : "vbapan~",
 					"textcolor" : [ 0.0, 0.0, 0.0, 1.0 ],
@@ -184,9 +184,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 70.0, 209.0, 79.0, 25.0 ],
+					"patching_rect" : [ 70.0, 209.0, 79.0, 24.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 18.0, 120.0, 79.0, 25.0 ],
+					"presentation_rect" : [ 18.0, 120.0, 79.0, 24.0 ],
 					"style" : "",
 					"text" : "ambicube~",
 					"textcolor" : [ 0.0, 0.0, 0.0, 1.0 ],
@@ -213,9 +213,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 70.0, 174.0, 72.0, 25.0 ],
+					"patching_rect" : [ 70.0, 174.0, 72.0, 24.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 18.0, 85.0, 72.0, 25.0 ],
+					"presentation_rect" : [ 18.0, 85.0, 72.0, 24.0 ],
 					"style" : "",
 					"text" : "ambipan~",
 					"textcolor" : [ 0.0, 0.0, 0.0, 1.0 ],
@@ -241,9 +241,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 256.5, 642.0, 408.0, 25.0 ],
+					"patching_rect" : [ 256.5, 642.0, 408.0, 24.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 137.5, 120.0, 348.5, 25.0 ],
+					"presentation_rect" : [ 137.5, 120.0, 348.5, 24.0 ],
 					"style" : "",
 					"text" : "click to see help file",
 					"textcolor" : [ 0.0, 0.0, 0.0, 1.0 ]
@@ -424,9 +424,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 0.0, 0.411766, 219.0, 48.0 ],
+					"patching_rect" : [ 0.0, 0.411766, 219.0, 47.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 0.0, 0.411766, 219.0, 48.0 ],
+					"presentation_rect" : [ 0.0, 0.411766, 219.0, 47.0 ],
 					"style" : "",
 					"text" : "CicmTools :",
 					"textcolor" : [ 0.2, 0.2, 0.2, 1.0 ],
@@ -443,10 +443,10 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 0.0, 680.0, 712.0, 33.0 ],
+					"patching_rect" : [ 0.0, 680.0, 712.0, 32.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 0.0, 204.0, 510.0, 33.0 ],
+					"presentation_rect" : [ 0.0, 204.0, 510.0, 32.0 ],
 					"style" : "",
 					"text" : "Authors: R.MIGNOT and B.COURRIBET, CICM, Universite Paris 8, MSH Paris-Nord, ACI Jeunes Chercheurs \"Espaces Sonores.\", updated by E.PARIS.",
 					"varname" : "autohelp_top_description[1]"
@@ -461,9 +461,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 0.0, 42.0, 304.0, 23.0 ],
+					"patching_rect" : [ 0.0, 42.0, 304.0, 22.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 4.0, 42.0, 437.0, 23.0 ],
+					"presentation_rect" : [ 4.0, 42.0, 437.0, 22.0 ],
 					"style" : "",
 					"text" : "Spatialization tools"
 				}
@@ -689,7 +689,7 @@
 			}
  ],
 		"dependency_cache" : [  ],
-		"embedsnapshot" : 0
+		"autosave" : 0
 	}
 
 }
