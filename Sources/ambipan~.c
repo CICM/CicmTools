@@ -94,7 +94,7 @@
 /*         La classe                                      */
 /**********************************************************/
 
-void *ambipan_tilde_class;
+t_class* ambipan_tilde_class;
 
 typedef struct _ambipan_tilde
 {
@@ -777,7 +777,7 @@ void *ambipan_tilde_new(t_symbol *s, int argc, t_atom *argv )
 	
 	//--------- Allocation de la dataspace ---------------------------//
 	
-	t_ambipan_tilde *x = object_alloc(ambipan_tilde_class);
+	t_ambipan_tilde *x = (t_ambipan_tilde*)object_alloc(ambipan_tilde_class);
 	
 	/*********************************************************/
 	/*Récupération du nombre de sorties et de haut-parleurs. */
