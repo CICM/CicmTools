@@ -56,12 +56,12 @@
 void cicmtools_post_credits()
 {
     /*Publicité pour le CICM *********************************/
-    post("\"CICM-Tools\"  Auteurs: R.MIGNOT  "
-         "et B.COURRIBET, CICM Université Paris8,");
+    post("\"CICM-Tools v2.1\"  Auteurs: R.MIGNOT  "
+         "et B.COURRIBET, CICM Paris8 University,");
     post("           MSH Paris Nord, ACI Jeunes "
          "Chercheurs \"Espaces Sonores\".");
-    post("           cicm\100univ-paris8.fr.");
-    post("v2.1, Max 7 version by E.PARIS.");
+    post("           cicm.mshparisnord\100gmail.com");
+    post("Updated by E.PARIS.");
 }
 
 #endif /* CicmTools_h */
